@@ -27,3 +27,28 @@ export const getAllTodos = async(req,res) =>{
     }
 }
 
+export const updateTodo = async(req,res) =>{
+    try{
+        const todoId = req.params.todoId
+        const {title} = req.body
+        const todo = await Todo.findByIdAndUpdate(todoId,{title},{new : true})
+        await todo.save()
+
+        return res.status(200).json({success:true,msg:"Todo updated",todo})
+    }
+    catch(err){
+        console.error(err)
+    }
+}
+
+export const deleteTodo = async(req,res) =>{
+    try{
+        const todoId = req.params.todoId
+        await Todo.findByIdAndDelete(todoId)
+
+        return res.status(200).json({msg:"Deleted The todo successfully"})
+    }
+    catch(err){
+        console.error(err)
+    }
+}
