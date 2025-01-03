@@ -1,12 +1,30 @@
-import React from 'react'
-import { Button } from './components/ui/button'
+import React from "react";
+import "./App.css";
+import Home from "./pages/Home";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from "./pages/Login";
+
+
+const appRouter = createBrowserRouter([
+  {
+    path:"/",
+    element:<Home/>
+  },
+  {
+    path:"/login",
+    element:<Login/>
+  }
+])
+
 
 function App() {
+  
+
   return (
-    <div>
-      <Button>Lets build todo App</Button>
-    </div>
-  )
+    <>
+    <RouterProvider router={appRouter}/>
+    </>
+  );
 }
 
-export default App
+export default App;
