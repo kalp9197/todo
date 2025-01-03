@@ -4,14 +4,14 @@ export const createTodo = async (req, res) => {
   try {
     const { title, description } = req.body;
     if (!title || !description) {
-      return res.status(400).json({ msg: "All fields are required" });
+      return res.status(400).json({ success: false, msg: "All fields are required" });
     }
     const todo = new Todo({ title, description });
     await todo.save();
-    return res.status(201).json({ msg: "Todo Created Successfully", todo });
+    return res.status(201).json({ success: true, msg: "Todo Created Successfully", todo });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ msg: "Internal server error" });
+    return res.status(500).json({ success: false, msg: "Internal server error" });
   }
 };
 
@@ -24,7 +24,7 @@ export const getAllTodos = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ msg: "Internal server error" });
+    return res.status(500).json({ success: false, msg: "Internal server error" });
   }
 };
 
@@ -39,13 +39,13 @@ export const updateTodo = async (req, res) => {
     );
 
     if (!updatedTodo) {
-      return res.status(404).json({ msg: "Todo not found" });
+      return res.status(404).json({ success: false, msg: "Todo not found" });
     }
 
     return res.status(200).json({ success: true, msg: "Todo updated", todo: updatedTodo });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ msg: "Internal server error" });
+    return res.status(500).json({ success: false, msg: "Internal server error" });
   }
 };
 
@@ -55,12 +55,12 @@ export const deleteTodo = async (req, res) => {
     const deletedTodo = await Todo.findByIdAndDelete(todoId);
 
     if (!deletedTodo) {
-      return res.status(404).json({ msg: "Todo not found" });
+      return res.status(404).json({ success: false, msg: "Todo not found" });
     }
 
-    return res.status(200).json({ msg: "Deleted the todo successfully" });
+    return res.status(200).json({ success: true, msg: "Deleted the todo successfully" });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ msg: "Internal server error" });
+    return res.status(500).json({ success: false, msg: "Internal server error" });
   }
 };

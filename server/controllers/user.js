@@ -48,6 +48,7 @@ export const login = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({
         msg: "All fields are required",
+        success: false,
       });
     }
 
@@ -55,12 +56,16 @@ export const login = async (req, res) => {
     if (!user) {
       return res.status(403).json({
         msg: "Wrong input either password or email are wrong",
+        success: false,
       });
     }
 
     const isPasswordMatched = await bcrypt.compare(password, user.password);
     if (!isPasswordMatched) {
-      return res.status(403).json({ msg: "Incorrect email or password" });
+      return res.status(403).json({
+        msg: "Incorrect email or password",
+        success: false,
+      });
     }
 
     const token = await jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
@@ -74,11 +79,15 @@ export const login = async (req, res) => {
         sameSite: "strict",
         maxAge: 24 * 60 * 60 * 1000,
       })
-      .json({ msg: `Login successful, Welcome back ${user.fullName}` });
+      .json({
+        msg: `Login successful, Welcome back ${user.fullName}`,
+        success: true,
+      });
   } catch (err) {
     console.log(err);
     return res.status(500).json({
       msg: "Internal server error",
+      success: false,
     });
   }
 };
@@ -87,11 +96,13 @@ export const logout = (req, res) => {
   try {
     return res.status(200).cookie("token", "", { maxAge: 0 }).json({
       msg: "User logged out successfully",
+      success: true,
     });
   } catch (err) {
     console.error(err);
     return res.status(500).json({
       msg: "Internal server error",
+      success: false,
     });
   }
 };

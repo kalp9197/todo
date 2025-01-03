@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken"
 
 export const isAuthenticated = async (req, res, next) => {
   try {
@@ -16,7 +16,7 @@ export const isAuthenticated = async (req, res, next) => {
       });
     }
 
-    // req.id = decoded.user._id; // Uncomment if you need to attach the user's ID to the request
+    // req.id = decoded.user._id;
     next();
   } catch (err) {
     console.error(err);
