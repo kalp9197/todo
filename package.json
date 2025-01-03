@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\""
+    "dev": "concurrently \"npm install --prefix server && npm run dev --prefix server\" \"npm install --prefix client && npm run dev --prefix client\""
   },
   "keywords": [],
   "author": "",
